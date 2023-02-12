@@ -20,6 +20,13 @@ int main()
 
     while (1)
     {
+        // Verifica si el archivo "shutdown" existe
+        if (access("shutdown", F_OK) != -1)
+        {
+            printf("El sistema se esta apagando, no se puede iniciar sesion\n");
+            exit(1);
+        }
+
         printf("\033[0;35mShell \033[0;36m%s>\033[0m ", getcwd(NULL, 0));
         scanf("%[^\n]%*c", cmd);
         printf("\n");
@@ -45,6 +52,14 @@ void execute(char *cmd)
         token = strtok(NULL, " ");
         i++;
     }
+
+    if (strcmp(args[0], "shutdown") == 0)
+    {
+        int fd = open("shutdown", O_CREAT | O_WRONLY, 0666);
+        close(fd);
+        exit(1);
+    }
+
     pid_t pid = fork();
     if (pid == 0)
     {

@@ -22,6 +22,14 @@ int main()
 
     while (isValid == 0)
     {
+
+        // Verifica si el archivo "shutdown" existe
+        if (access("shutdown", F_OK) != -1)
+        {
+            printf("El sistema se esta apagando, no se puede iniciar sesion\n");
+            exit(1);
+        }
+        
         char user[BUFSIZE];
         char password[BUFSIZE];
         printf("Ingrese su usuario: ");
